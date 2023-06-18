@@ -1,6 +1,7 @@
 import java.util.TreeMap;
 public class RomanNumber {
     private final static TreeMap<Integer, String> map = new TreeMap<Integer, String>();
+
     static {
         map.put(1000, "M");
         map.put(900, "CM");
@@ -16,11 +17,18 @@ public class RomanNumber {
         map.put(4, "IV");
         map.put(1, "I");
     }
+
     public final static String toRoman(int number) {
-        int l =  map.floorKey(number);
-        if ( number == l ) {
-            return map.get(number);
+        try {
+            int l = map.floorKey(number);
+            if (number == l) {
+                return map.get(number);
+            }
+            return map.get(l) + toRoman(number - l);
+
+        } catch (NullPointerException e) {
+            throw new IllegalArgumentException("Не может быть отрицательным");
         }
-        return map.get(l) + toRoman(number-l);
+
     }
 }
